@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
-import { companyRoutes, serviceRoutes } from './routes';
+import { companyRoutes, serviceRoutes, orderRoutes, userRoutes } from './routes';
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/companies', companyRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/orders', orderRoutes);
 
 const PORT = process.env.PORT || 5001;
 
