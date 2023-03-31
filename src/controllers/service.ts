@@ -37,7 +37,6 @@ export const getService = async (req: Request, res: Response) => {
 export const createService = async (req: Request, res: Response) => {
   try {
     const { name, serviceAddress, description } = req.body as RequestBody;
-    const { body } = req;
     const newService = await Service.create({ name, serviceAddress, description });
     res.status(201).json(newService);
   } catch (err) {
