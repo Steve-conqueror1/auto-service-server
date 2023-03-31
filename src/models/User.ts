@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import { UserType } from './types';
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<UserType>(
   {
     firstName: {
       type: String,
@@ -17,10 +18,12 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
       required: true,
+      select: false,
     },
     userType: {
       type: String,
@@ -36,4 +39,4 @@ const UserSchema = new Schema(
   { timestamps: true },
 );
 
-export const user = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);

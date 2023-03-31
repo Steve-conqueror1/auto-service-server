@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/companies', companyRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5001;
 
