@@ -58,6 +58,31 @@ export const findCompaniesByService = async (req: Request, res: Response) => {
     const companies = await Company.find({ services: { $eq: serviceId } });
     res.status(200).json(companies);
   } catch (err) {
-    res.status(200).json({ message: 'Ошибка! Компания не найдена' });
+    res.status(400).json({ message: 'Ошибка! Компания не найдена' });
+  }
+};
+
+export const editCompany = async (req: Request, res: Response) => {
+  const params = req.params as RequestParams;
+  const body = req.body as RequestBody;
+  try {
+    const { companyId } = params;
+
+    const updatedCompany = await Company.findByIdAndUpdate(companyId, { $set: body }, { new: true });
+    res.status(200).json(updatedCompany);
+  } catch (err) {
+    res.status(400).json({ message: 'Ошибка! Компания не редактировано' });
+  }
+};
+
+export const deleteCompany = async (req: Request, res: Response) => {
+  const params = req.params as RequestParams;
+
+  try {
+    const { companyId } = params;
+    await Company.findByIdAndDelete(companyId);
+    res.status(200).json({ message: 'Компания удалена' });
+  } catch (err) {
+    res.status(400).json({ message: 'Ошибка! Компания не удалена' });
   }
 };
