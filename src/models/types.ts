@@ -1,9 +1,9 @@
 export type UserType = {
-  firstName: string;
-  secondName: string;
-  surName: string;
+  firstName?: string;
+  secondName?: string;
+  surName?: string;
   email: string;
-  password: string;
+  password?: string;
   userType: 'user' | 'superAdmin' | 'admin';
   userStatus: 'pending' | 'active' | 'blocked';
 };
