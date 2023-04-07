@@ -1,9 +1,10 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
 import { companyRoutes, serviceRoutes, orderRoutes, userRoutes } from './routes';
+import createHttpError, { isHttpError } from 'http-errors';
 
 const app = express();
 
@@ -23,7 +24,25 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
-const PORT = process.env.PORT || 5001;
+app.use((req, res, next) => {
+  next(createHttpError(404, '404 - endpoint не существует'));
+});
+
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+  let errorMessage = 'Что-то пошло не так!';
+  let statusCode = 500;
+
+  if (isHttpError(error)) {
+    statusCode = error.status;
+    errorMessage = error.message;
+  }
+
+  return res.status(statusCode).json({
+    message: errorMessage,
+  });
+});
+
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(`${process.env.MONGO_URL}`, {
