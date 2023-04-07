@@ -4,7 +4,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
 import { companyRoutes, serviceRoutes, orderRoutes, userRoutes } from './routes';
-import { notify } from './helpers';
 
 const app = express();
 
@@ -34,7 +33,6 @@ mongoose
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server connected at PORT ${PORT}`);
-      notify();
     });
   })
   .catch((err) => {

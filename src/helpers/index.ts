@@ -2,7 +2,7 @@ import path from 'path';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 
-export const notify = () => {
+export const notify = (template: string) => {
   const rootDir = path.resolve(__dirname, '../..');
 
   let transporter = nodemailer.createTransport({
@@ -13,10 +13,8 @@ export const notify = () => {
     },
   });
 
-  //TODO: fix all templates
-
   ejs.renderFile(
-    rootDir + '/templates/welcome.ejs',
+    rootDir + `/templates/${template}.ejs`,
     { receiver: 'john', content: 'just testing', currentDate: new Date().getFullYear() },
     (err, data) => {
       if (err) {
@@ -24,7 +22,7 @@ export const notify = () => {
       } else {
         let mailOptions = {
           from: `Сидена колл-центр автосервис ${process.env.SENDER_EMAIL}`,
-          to: 'stevekiloapril@gmail.com',
+          to: process.env.RECEIVER_EMAIL,
           subject: 'Новое уведомление от колл-центра Сирены',
           html: data,
         };
@@ -33,6 +31,7 @@ export const notify = () => {
           if (error) {
             return console.log(error);
           }
+
           console.log('Message sent ' + info.response);
         });
       }
