@@ -29,6 +29,12 @@ const CompanySchema = new Schema(
         ref: 'Service',
       },
     ],
+    requisites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'CompanyRequisites',
+      },
+    ],
   },
   {
     timestamps: true,

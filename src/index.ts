@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
-import { companyRoutes, serviceRoutes, orderRoutes, userRoutes } from './routes';
+import { companyRoutes, serviceRoutes, orderRoutes, userRoutes, requisites } from './routes';
 import createHttpError, { isHttpError } from 'http-errors';
 
 const app = express();
@@ -23,6 +23,7 @@ app.use('/api/companies', companyRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/requisites', requisites);
 
 app.use((req, res, next) => {
   next(createHttpError(404, '404 - endpoint не существует'));
