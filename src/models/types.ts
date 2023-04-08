@@ -4,6 +4,6 @@ export type UserType = {
   surName?: string;
   email: string;
   password?: string;
-  userType: 'user' | 'superAdmin' | 'admin';
+  userPermission: 'user' | 'superAdmin' | 'admin';
   userStatus: 'pending' | 'active' | 'blocked';
 };

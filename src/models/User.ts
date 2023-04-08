@@ -14,17 +14,17 @@ const UserSchema = new Schema<UserType>(
     },
     email: {
       type: String,
-
       unique: true,
     },
     password: {
       type: String,
       select: false,
     },
-    userType: {
+    userPermission: {
       type: String,
       enum: ['user', 'superAdmin', 'admin'],
       default: 'user',
+      required: true,
     },
     userStatus: {
       type: String,

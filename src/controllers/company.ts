@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Company } from '../models';
 
 type RequestParams = {
@@ -18,51 +18,51 @@ type RequestBody = {
   services: string[];
 };
 
-export const getCompany = async (req: Request, res: Response) => {
+export const getCompany = async (req: Request, res: Response, next: NextFunction) => {
   const params = req.params as RequestParams;
   const companyId = params.companyId;
 
   try {
     const company = await Company.findOne({ _id: companyId }).populate('services');
     res.status(200).json(company);
-  } catch (err) {
-    res.status(401).json({ message: 'Компания не найдена' });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const getCompanies = async (req: Request, res: Response) => {
+export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const companies = await Company.find().populate('services');
     res.status(200).json(companies);
-  } catch (err) {
-    res.status(401).json({ message: 'Ошибка! Что-то пошло не так' });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const createCompany = async (req: Request, res: Response) => {
+export const createCompany = async (req: Request, res: Response, next: NextFunction) => {
   const { name, address, contactPerson, phone, email, services } = req.body as RequestBody;
   try {
     const newCompany = await Company.create({ name, address, contactPerson, phone, email, services });
     res.status(201).json(newCompany);
-  } catch (err) {
-    res.status(400).json({ message: 'Ошибка! Компания не создана' });
+  } catch (error) {
+    next(error);
   }
 };
 
 /**
  * Get all companies offering a certain service
  * */
-export const findCompaniesByService = async (req: Request, res: Response) => {
+export const findCompaniesByService = async (req: Request, res: Response, next: NextFunction) => {
   const { serviceId } = req.params as ServiceRequestParams;
   try {
     const companies = await Company.find({ services: { $eq: serviceId } });
     res.status(200).json(companies);
-  } catch (err) {
-    res.status(400).json({ message: 'Ошибка! Компания не найдена' });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const editCompany = async (req: Request, res: Response) => {
+export const editCompany = async (req: Request, res: Response, next: NextFunction) => {
   const params = req.params as RequestParams;
   const body = req.body as RequestBody;
   try {
@@ -70,19 +70,19 @@ export const editCompany = async (req: Request, res: Response) => {
 
     const updatedCompany = await Company.findByIdAndUpdate(companyId, { $set: body }, { new: true });
     res.status(200).json(updatedCompany);
-  } catch (err) {
-    res.status(400).json({ message: 'Ошибка! Компания не редактировано' });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const deleteCompany = async (req: Request, res: Response) => {
+export const deleteCompany = async (req: Request, res: Response, next: NextFunction) => {
   const params = req.params as RequestParams;
 
   try {
     const { companyId } = params;
     await Company.findByIdAndDelete(companyId);
     res.status(200).json({ message: 'Компания удалена' });
-  } catch (err) {
-    res.status(400).json({ message: 'Ошибка! Компания не удалена' });
+  } catch (error) {
+    next(error);
   }
 };
