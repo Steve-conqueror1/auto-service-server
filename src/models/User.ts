@@ -28,8 +28,8 @@ const UserSchema = new Schema<UserType>(
     },
     userStatus: {
       type: String,
-      enum: ['pending', 'active', 'blocked'],
-      default: 'pending',
+      enum: ['active', 'blocked'],
+      default: 'active',
     },
   },
   { timestamps: true },

@@ -7,6 +7,8 @@ import {
   createUser,
   changeUserStatus,
   changeUserPermission,
+  login,
+  logout,
 } from '../controllers';
 
 const router = Router();
@@ -17,5 +19,7 @@ router.put('/:userId', editUser);
 router.delete('/:userId', deleteUser);
 router.patch('/:userId/status', changeUserStatus);
 router.patch('/:userId/permission', changeUserPermission);
+router.post('/login', login);
+router.post('/logout', logout);
 
 export default router;

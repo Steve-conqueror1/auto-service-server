@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
 import { companyRoutes, serviceRoutes, orderRoutes, userRoutes, requisites } from './routes';
 import createHttpError, { isHttpError } from 'http-errors';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 
@@ -18,6 +20,21 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    secret: `${process.env.SESSION_SECRET}`,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URL,
+    }),
+  }),
+);
 
 app.use('/api/companies', companyRoutes);
 app.use('/api/services', serviceRoutes);

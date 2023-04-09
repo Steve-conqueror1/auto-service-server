@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Types } from 'mongoose';
 import createHttpError from 'http-errors';
+import bcrypt from 'bcrypt';
 import { User } from '../models';
 
 type RequestParams = {
@@ -17,6 +18,11 @@ type RequestBody = {
   userPermission: string;
   userStatus: string;
 };
+
+interface LoginBody {
+  email: string;
+  password: string;
+}
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -75,7 +81,16 @@ export const editUser = async (req: Request, res: Response, next: NextFunction) 
       throw createHttpError(404, 'Пользователь не найден');
     }
 
-    const editedUser = await User.findByIdAndUpdate(userId, { $set: body }, { new: true });
+    const passwordHashed = await bcrypt.hash(password, 10);
+
+    const editedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { ...body, password: passwordHashed } },
+      { new: true },
+    );
+
+    req.session.userId = editedUser?._id;
+    req.session.userPermission = editedUser?.userPermission;
 
     res.status(200).json(editedUser);
   } catch (error) {
@@ -138,4 +153,44 @@ export const changeUserPermission = async (req: Request, res: Response, next: Ne
   } catch (error) {
     next(error);
   }
+};
+
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+  const body = req.body as LoginBody;
+
+  const { email, password } = body;
+  try {
+    if (!email || !password) {
+      throw createHttpError(400, 'Заполните все поля');
+    }
+    const user = await User.findOne({ email: email }).select('+password');
+    if (!user) {
+      throw createHttpError(401, 'Недействительные учетные данные');
+    }
+
+    if (user.userStatus === 'blocked') {
+      throw createHttpError(403, 'Вы не авторизованы для входа, обратитесь к администратору');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password as string);
+    if (!passwordMatch) {
+      throw createHttpError(401, 'Недействительные учетные данные');
+    }
+
+    req.session.userId = user._id;
+    req.session.userPermission = user.userPermission;
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  req.session.destroy((error) => {
+    if (error) {
+      next(error);
+    } else {
+      res.sendStatus(200);
+    }
+  });
 };
