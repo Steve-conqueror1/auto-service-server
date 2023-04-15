@@ -22,7 +22,7 @@ const UserSchema = new Schema<UserType>(
     },
     userPermission: {
       type: String,
-      enum: ['user', 'superAdmin', 'admin'],
+      enum: ['operator', 'superAdmin', 'admin'],
       default: 'user',
       required: true,
     },

@@ -19,6 +19,11 @@ type RequestBody = {
   userStatus: string;
 };
 
+type PasswordChangeRequestBody = {
+  password: string;
+  repeatPassword: string;
+};
+
 interface LoginBody {
   email: string;
   password: string;
@@ -193,4 +198,29 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
       res.sendStatus(200);
     }
   });
+};
+
+export const changePassword = async (req: Request, res: Response, next: NextFunction) => {
+  const { userId } = req.params as RequestParams;
+  const body = req.body as PasswordChangeRequestBody;
+  const { password, repeatPassword } = body;
+
+  try {
+    if (password !== repeatPassword) {
+      throw createHttpError(400, 'Пароли должны совпадать');
+    }
+
+    const user = await User.findOne({ _id: new Types.ObjectId(userId) });
+
+    if (!user || user.userStatus === 'blocked') {
+      throw createHttpError(401, 'Ошибка - Связаться с администратором');
+    }
+
+    const passwordHashed = await bcrypt.hash(password, 10);
+    user.password = passwordHashed;
+    user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
 };
