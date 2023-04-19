@@ -2,7 +2,7 @@ import path from 'path';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 
-export const notify = (template: string) => {
+export const notify = (template: string, data: { [key: string]: any }) => {
   const rootDir = path.resolve(__dirname, '../..');
 
   let transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ export const notify = (template: string) => {
 
   ejs.renderFile(
     rootDir + `/templates/${template}.ejs`,
-    { receiver: 'john', content: 'just testing', currentDate: new Date().getFullYear() },
+    { receiver: 'john', content: 'just testing', currentDate: new Date().getFullYear(), data },
     (err, data) => {
       if (err) {
         console.log(err);

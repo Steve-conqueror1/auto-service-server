@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { User } from '../models';
+import { notify } from '../helpers';
 
 type RequestParams = {
   userId: string;
@@ -22,6 +23,10 @@ type RequestBody = {
 type PasswordChangeRequestBody = {
   password: string;
   repeatPassword: string;
+};
+
+type PasswordRestoreRequestBody = {
+  email: string;
 };
 
 interface LoginBody {
@@ -220,6 +225,30 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
     user.password = passwordHashed;
     user.save();
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const restorePassword = async (req: Request, res: Response, next: NextFunction) => {
+  const body = req.body as PasswordRestoreRequestBody;
+  const { email } = body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw createHttpError(401, 'Пользователь с таким E-mail не существует');
+    }
+
+    if (user.userStatus === 'blocked') {
+      throw createHttpError(401, 'Ошибка - Связаться с администратором');
+    }
+
+    const userId = user._id;
+    notify('restorePassword', { userId });
+
+    res.status(200).json({ message: 'Ссылка для смены пароля была отправлена на вашу E-mail' });
   } catch (error) {
     next(error);
   }

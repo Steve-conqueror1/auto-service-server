@@ -10,6 +10,7 @@ import {
   login,
   logout,
   changePassword,
+  restorePassword,
 } from '../controllers';
 
 const router = Router();
@@ -23,5 +24,6 @@ router.patch('/:userId/permission', changeUserPermission);
 router.post('/login', login);
 router.post('/logout', logout);
 router.post('/password/forgot/:userId', changePassword);
+router.post('/password/restore', restorePassword);
 
 export default router;
