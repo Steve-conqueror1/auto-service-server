@@ -246,7 +246,8 @@ export const restorePassword = async (req: Request, res: Response, next: NextFun
     }
 
     const userId = user._id;
-    notify('restorePassword', { userId });
+    const useEmail = user.email as string;
+    notify('restorePassword', { userId: userId, email: useEmail });
 
     res.status(200).json({ message: 'Ссылка для смены пароля была отправлена на вашу E-mail' });
   } catch (error) {

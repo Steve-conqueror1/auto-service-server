@@ -1,8 +1,9 @@
 import path from 'path';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
+import { Types } from 'mongoose';
 
-export const notify = (template: string, data: { [key: string]: any }) => {
+export const notify = (template: string, templateData: { email: string; userId?: Types.ObjectId }) => {
   const rootDir = path.resolve(__dirname, '../..');
 
   let transporter = nodemailer.createTransport({
@@ -15,14 +16,14 @@ export const notify = (template: string, data: { [key: string]: any }) => {
 
   ejs.renderFile(
     rootDir + `/templates/${template}.ejs`,
-    { receiver: 'john', content: 'just testing', currentDate: new Date().getFullYear(), data },
+    { receiver: 'john', content: 'just testing', currentDate: new Date().getFullYear(), templateData },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
         let mailOptions = {
           from: `Сидена колл-центр автосервис ${process.env.SENDER_EMAIL}`,
-          to: process.env.RECEIVER_EMAIL,
+          to: templateData.email,
           subject: 'Новое уведомление от колл-центра Сирены',
           html: data,
         };
