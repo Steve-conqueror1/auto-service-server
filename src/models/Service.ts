@@ -22,6 +22,10 @@ const ServiceSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Company',
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'ServiceCategory',
+    },
   },
   { timestamps: true },
 );

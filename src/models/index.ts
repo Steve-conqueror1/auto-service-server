@@ -3,3 +3,4 @@ export * from './Company';
 export * from './Service';
 export * from './Order';
 export * from './CompanyRequisites';
+export * from './ServiceCategory';
