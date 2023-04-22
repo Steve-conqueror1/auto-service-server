@@ -4,3 +4,4 @@ export * from './user';
 export * from './service';
 export * from './requisite';
 export * from './serviceCategory';
+export * from './auth';

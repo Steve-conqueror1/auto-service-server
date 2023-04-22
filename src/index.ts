@@ -3,10 +3,17 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
-import { companyRoutes, serviceRoutes, orderRoutes, userRoutes, requisites, serviceCategories } from './routes';
+import {
+  companyRoutes,
+  serviceRoutes,
+  orderRoutes,
+  userRoutes,
+  requisites,
+  serviceCategories,
+  authRoutes,
+} from './routes';
 import createHttpError, { isHttpError } from 'http-errors';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+import { checkAuth } from './middleware/checkAuth';
 
 const app = express();
 
@@ -21,20 +28,9 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(
-  session({
-    secret: `${process.env.SESSION_SECRET}`,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 60 * 60 * 1000,
-    },
-    rolling: true,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
-    }),
-  }),
-);
+app.use('/api/auth', authRoutes);
+
+app.use(checkAuth);
 
 app.use('/api/companies', companyRoutes);
 app.use('/api/services', serviceRoutes);
@@ -72,9 +68,6 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server connected at PORT ${PORT}`);
     });
-
-    // seed data only once
-    // ServiceCategory.insertMany(services);
   })
   .catch((err) => {
     console.log(err.message);
