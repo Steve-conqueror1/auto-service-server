@@ -15,6 +15,12 @@ const CompanySchema = new Schema(
       type: String,
       required: true,
     },
+    latitude: {
+      type: Number,
+    },
+    longitude: {
+      type: Number,
+    },
     phone: {
       type: String,
       required: true,
@@ -29,12 +35,10 @@ const CompanySchema = new Schema(
         ref: 'Service',
       },
     ],
-    requisites: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'CompanyRequisites',
-      },
-    ],
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
