@@ -39,6 +39,18 @@ const CompanySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    workFrom: {
+      type: String,
+      required: true,
+    },
+    workTo: {
+      type: String,
+      required: true,
+    },
+    workWeekend: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
