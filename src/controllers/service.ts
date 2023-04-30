@@ -12,6 +12,7 @@ type RequestBody = {
   order?: string;
   companyId: string;
   adminId: string;
+  available: boolean;
 };
 
 export const getServices = async (req: Request, res: Response, next: NextFunction) => {
@@ -36,6 +37,20 @@ export const getService = async (req: Request, res: Response, next: NextFunction
     const services = await Service.findOne({ _id: serviceId });
 
     res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editService = async (req: Request, res: Response, next: NextFunction) => {
+  const params = req.params as RequestParams;
+  const { serviceId } = params;
+  const body = req.body as RequestBody;
+
+  try {
+    const editedService = await Service.findByIdAndUpdate(serviceId, { $set: body }, { new: true });
+
+    res.status(200).json(editedService);
   } catch (error) {
     next(error);
   }
