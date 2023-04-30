@@ -9,7 +9,7 @@ export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
       throw createHttpError(401, 'Ошибка аутентификации');
     }
     const decodedToken = jwt.verify(token, `${process.env.SECRET}`);
-    (req as any).userData = { userId: (decodedToken as any).userId, userType: (decodedToken as any).userPermission };
+    (req as any).userData = { userId: (decodedToken as any).userId, userType: (decodedToken as any).userType };
     next();
   } catch (error) {
     return next(error);

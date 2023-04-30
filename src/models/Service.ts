@@ -10,19 +10,22 @@ const ServiceSchema = new Schema(
       type: String,
       required: true,
     },
-    serviceAddress: {
-      type: String,
-      required: true,
-    },
-    order: {
-      type: Schema.Types.ObjectId,
-      ref: 'Order',
-    },
-    company: {
+
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
+    companyId: {
       type: Schema.Types.ObjectId,
       ref: 'Company',
     },
-    category: {
+    adminId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    categoryId: {
       type: Schema.Types.ObjectId,
       ref: 'ServiceCategory',
     },
