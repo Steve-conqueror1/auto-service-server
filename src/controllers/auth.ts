@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       next(error);
     }
 
-    res.status(200).json({ userId: user._id, email: user.email, token: token });
+    res.status(200).json({ userId: user._id, userPermission: user.userPermission, token: token });
   } catch (error) {
     next(error);
   }
@@ -110,7 +110,7 @@ export const editUser = async (req: Request, res: Response, next: NextFunction) 
       next(error);
     }
 
-    res.status(200).json({ userId: editedUser._id, email: editedUser.email, token: token });
+    res.status(200).json({ userId: editedUser._id, userPermission: editedUser.userPermission, token: token });
   } catch (error) {
     next(error);
   }

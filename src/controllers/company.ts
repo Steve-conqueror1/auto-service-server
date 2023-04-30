@@ -18,6 +18,8 @@ type RequestBody = {
   phone: string;
   contactPerson: string;
   services: string[];
+  latitude: string;
+  longitude: string;
 };
 
 const getLatitudes = async (address: string) => {
@@ -95,8 +97,13 @@ export const editCompany = async (req: Request, res: Response, next: NextFunctio
   const body = req.body as RequestBody;
   try {
     const { companyId } = params;
+    let cords = {};
+    if (body.address) {
+      const [latitude, longitude] = await getLatitudes(body.address);
+      cords = { ...cords, latitude, longitude };
+    }
 
-    const updatedCompany = await Company.findByIdAndUpdate(companyId, { $set: body }, { new: true });
+    const updatedCompany = await Company.findByIdAndUpdate(companyId, { $set: { ...body, ...cords } }, { new: true });
     res.status(200).json(updatedCompany);
   } catch (error) {
     next(error);
