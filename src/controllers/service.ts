@@ -65,8 +65,8 @@ export const editService = async (req: Request, res: Response, next: NextFunctio
 export const createService = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId: adminId } = (req as any).userData;
-    const { name, description, companyId, categoryId } = req.body as RequestBody;
-    const newService = await Service.create({ name, description, companyId, categoryId, adminId });
+    const { name, description, companyId, categoryId, available } = req.body as RequestBody;
+    const newService = await Service.create({ name, description, companyId, categoryId, adminId, available });
     const company = await Company.findById(companyId);
     const category = await ServiceCategory.findById(categoryId);
 

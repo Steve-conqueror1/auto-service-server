@@ -13,7 +13,6 @@ const ServiceSchema = new Schema(
     available: {
       type: Boolean,
       required: true,
-      default: true,
     },
     order: [
       {
