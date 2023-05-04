@@ -2,28 +2,36 @@ import mongoose, { Schema } from 'mongoose';
 
 const OrderSchema = new Schema(
   {
-    name: {
+    description: {
       type: String,
       required: true,
     },
-    description: {
+    operatorComment: {
       type: String,
       required: true,
     },
     service: {
       type: Schema.Types.ObjectId,
       ref: 'Service',
+      required: true,
     },
 
     status: {
       type: String,
       enum: ['pending', 'processing', 'done', 'rejected'],
-      default: 'unconfirmed',
+      default: 'pending',
     },
 
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
+    },
+
+    company: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company',
+      required: true,
     },
   },
   { timestamps: true },
