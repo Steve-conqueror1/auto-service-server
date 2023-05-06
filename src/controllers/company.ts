@@ -24,7 +24,9 @@ type RequestBody = {
 
 const getLatitudes = async (address: string) => {
   const res = await axios.get(
-    `http://api.positionstack.com/v1/forward?access_key=${process.env.MAP_API_KEY}&limit=${1}&query=${address}`,
+    `http://api.positionstack.com/v1/forward?access_key=${
+      process.env.MAP_API_KEY
+    }&limit=${1}&country=RU&query=${address}`,
     { maxRedirects: 0 },
   );
 
