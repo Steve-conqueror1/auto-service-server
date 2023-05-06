@@ -29,7 +29,8 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
     const orders = await Order.find({ ...filters })
       .populate('service')
       .populate('createdBy')
-      .populate('company');
+      .populate('company')
+      .populate('responses');
     res.status(200).json(orders);
   } catch (error) {
     next(error);

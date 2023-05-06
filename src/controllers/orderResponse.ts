@@ -21,6 +21,8 @@ export const createOrderResponse = async (req: Request, res: Response, next: Nex
     const newResponse = await OrderResponse.create(body);
 
     const respondingOrder = await Order.findById(order).populate('createdBy').populate('company');
+    await respondingOrder?.responses.push(newResponse._id);
+    await respondingOrder?.save();
     const orderCreator = (respondingOrder as any).createdBy;
     const orderCompany = (respondingOrder as any).company;
     const creatorEmail = orderCreator.email;
