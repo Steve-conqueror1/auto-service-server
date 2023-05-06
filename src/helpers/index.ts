@@ -3,7 +3,10 @@ import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import { Types } from 'mongoose';
 
-export const notify = (template: string, templateData: { email: string; userId?: Types.ObjectId }) => {
+export const notify = (
+  template: string,
+  templateData: { email: string; userId?: Types.ObjectId; companyName?: string },
+) => {
   const rootDir = path.resolve(__dirname, '../..');
 
   let transporter = nodemailer.createTransport({

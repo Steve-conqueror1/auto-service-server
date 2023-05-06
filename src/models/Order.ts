@@ -18,7 +18,7 @@ const OrderSchema = new Schema(
 
     status: {
       type: String,
-      enum: ['pending', 'processing', 'done', 'rejected'],
+      enum: ['pending', 'confirmed', 'done', 'rejected'],
       default: 'pending',
     },
 
@@ -33,6 +33,14 @@ const OrderSchema = new Schema(
       ref: 'Company',
       required: true,
     },
+
+    responses: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'OrderResponse',
+        required: true,
+      },
+    ],
   },
   { timestamps: true },
 );

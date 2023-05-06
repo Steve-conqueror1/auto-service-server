@@ -3,7 +3,15 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose, { MongooseOptions } from 'mongoose';
-import { companyRoutes, serviceRoutes, orderRoutes, userRoutes, serviceCategories, authRoutes } from './routes';
+import {
+  companyRoutes,
+  serviceRoutes,
+  orderRoutes,
+  userRoutes,
+  serviceCategories,
+  authRoutes,
+  orderResponseRoutes,
+} from './routes';
 import createHttpError, { isHttpError } from 'http-errors';
 import { checkAuth } from './middleware/checkAuth';
 
@@ -29,6 +37,7 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/serviceCategories', serviceCategories);
+app.use('/api/order/response', orderResponseRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, '404 - endpoint не существует'));
