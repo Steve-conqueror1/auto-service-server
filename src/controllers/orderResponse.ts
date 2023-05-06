@@ -12,7 +12,7 @@ type RequestBody = {
 
 export const createOrderResponse = async (req: Request, res: Response, next: NextFunction) => {
   const body = req.body as RequestBody;
-  const { order } = body;
+  const { order, status } = body;
   const { userType } = (req as any).userData;
   try {
     if (userType !== 'admin') {
@@ -22,6 +22,7 @@ export const createOrderResponse = async (req: Request, res: Response, next: Nex
 
     const respondingOrder = await Order.findById(order).populate('createdBy').populate('company');
     await respondingOrder?.responses.push(newResponse._id);
+    await respondingOrder?.updateOne({ status });
     await respondingOrder?.save();
     const orderCreator = (respondingOrder as any).createdBy;
     const orderCompany = (respondingOrder as any).company;

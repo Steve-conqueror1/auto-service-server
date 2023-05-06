@@ -9,7 +9,7 @@ const OrderResponseSchema = new Schema(
 
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'done', 'rejected'],
+      enum: ['pending', 'confirmed', 'done', 'declined'],
     },
 
     sparePart: {

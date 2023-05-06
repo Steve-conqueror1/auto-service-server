@@ -17,13 +17,18 @@ type RequestBody = {
 
 export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
   const { userType, userId } = (req as any).userData;
-  const filters: { company?: string } = {};
+  const { status } = req.query;
+  const filters: { company?: string; status?: string } = {};
 
   try {
     if (userType === 'admin') {
       const company = await Company.findOne({ admin: userId });
 
       filters['company'] = (company as any)._id;
+    }
+
+    if (status) {
+      filters['status'] = status as string;
     }
 
     const orders = await Order.find({ ...filters })
