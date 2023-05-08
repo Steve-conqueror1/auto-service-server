@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Types } from 'mongoose';
 import createHttpError from 'http-errors';
 import { User } from '../models';
+import { notify } from '../helpers';
 
 type RequestParams = {
   userId: string;
@@ -41,6 +42,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     }
     const newUser = await User.create(body);
     res.status(201).json(newUser);
+    notify('registration', { email, userId: newUser._id });
   } catch (error) {
     next(error);
   }

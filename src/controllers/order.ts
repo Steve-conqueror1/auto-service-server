@@ -24,7 +24,11 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
     if (userType === 'admin') {
       const company = await Company.findOne({ admin: userId });
 
-      filters['company'] = (company as any)._id;
+      if (company) {
+        filters['company'] = (company as any)._id;
+      } else {
+        filters['company'] = '6458bc6c2c91ef6efdd575cd';
+      }
     }
 
     if (status) {
