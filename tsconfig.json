@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "NodeNext",
+    "target": "esnext",
+    "module": "nodenext",
     "typeRoots": [
         "@types",
       "node_modules/@types/*"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "strict": true,
     "baseUrl": "./src",
     "outDir": "./dist",
