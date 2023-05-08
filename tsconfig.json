@@ -9,7 +9,7 @@
     "moduleResolution": "nodenext",
     "strict": true,
     "baseUrl": "./src",
-    "outDir": "./dist",
+    "outDir": "./public",
     "sourceMap": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
