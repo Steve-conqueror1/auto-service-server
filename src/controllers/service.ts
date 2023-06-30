@@ -32,7 +32,7 @@ export const getServices = async (req: Request, res: Response, next: NextFunctio
   }
 
   try {
-    const services = await Service.find({ ...filters }).populate('categoryId');
+    const services = await Service.find({ ...filters }).populate('categoryId companyId');
     res.status(200).json(services);
   } catch (error) {
     next(error);
