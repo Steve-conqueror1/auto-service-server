@@ -13,13 +13,16 @@ exports.createService = exports.editService = exports.getService = exports.getSe
 const models_1 = require("../models");
 const getServices = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId: adminId, userType } = req.userData;
-    const { companyId } = req.query;
+    const { companyId, categoryId } = req.query;
     const filters = {};
     if (userType === 'admin') {
         filters['adminId'] = adminId;
     }
     if (companyId) {
         filters['companyId'] = companyId;
+    }
+    if (categoryId) {
+        filters['categoryId'] = categoryId;
     }
     try {
         const services = yield models_1.Service.find(Object.assign({}, filters));

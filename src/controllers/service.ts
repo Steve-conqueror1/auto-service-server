@@ -17,14 +17,18 @@ type RequestBody = {
 
 export const getServices = async (req: Request, res: Response, next: NextFunction) => {
   const { userId: adminId, userType } = (req as any).userData;
-  const { companyId } = req.query;
-  const filters: { adminId?: string; companyId?: string } = {};
+  const { companyId, categoryId } = req.query;
+  const filters: { adminId?: string; companyId?: string; categoryId?: string } = {};
   if (userType === 'admin') {
     filters['adminId'] = adminId;
   }
 
   if (companyId) {
     filters['companyId'] = companyId as string;
+  }
+
+  if (categoryId) {
+    filters['categoryId'] = categoryId as string;
   }
 
   try {
