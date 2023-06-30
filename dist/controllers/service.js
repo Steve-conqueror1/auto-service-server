@@ -25,7 +25,7 @@ const getServices = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         filters['categoryId'] = categoryId;
     }
     try {
-        const services = yield models_1.Service.find(Object.assign({}, filters));
+        const services = yield models_1.Service.find(Object.assign({}, filters)).populate('categoryId');
         res.status(200).json(services);
     }
     catch (error) {
