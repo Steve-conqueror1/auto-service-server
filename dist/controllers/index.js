@@ -21,4 +21,5 @@ __exportStar(require("./service"), exports);
 __exportStar(require("./serviceCategory"), exports);
 __exportStar(require("./auth"), exports);
 __exportStar(require("./statistics"), exports);
+__exportStar(require("./eventSchedules"), exports);
 //# sourceMappingURL=index.js.map

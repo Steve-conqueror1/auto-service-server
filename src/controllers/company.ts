@@ -40,7 +40,7 @@ export const getCompany = async (req: Request, res: Response, next: NextFunction
   const companyId = params.companyId;
 
   try {
-    const company = await Company.findOne({ _id: companyId }).populate('services').populate('admin');
+    const company = await Company.findOne({ _id: companyId }).populate('services admin events');
     if (!company) {
       throw createHttpError(404, 'Компания не найдена');
     }
@@ -52,7 +52,7 @@ export const getCompany = async (req: Request, res: Response, next: NextFunction
 
 export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const companies = await Company.find().populate('services').populate('admin');
+    const companies = await Company.find().populate('services admin events');
     res.status(200).json(companies);
   } catch (error) {
     next(error);
@@ -62,7 +62,7 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
 export const getCompanyByCurrentUser = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = (req as any).userData;
   try {
-    const company = await Company.findOne({ admin: userId }).populate('services').populate('admin');
+    const company = await Company.findOne({ admin: userId }).populate('services admin events');
     res.status(200).json(company);
   } catch (error) {
     next(error);

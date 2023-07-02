@@ -23,66 +23,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Company = void 0;
+exports.EventSchedule = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const CompanySchema = new mongoose_1.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    address: {
+const EventSchema = new mongoose_1.Schema({
+    title: {
         type: String,
         required: true,
     },
-    email: {
-        type: String,
+    start: {
+        type: Date,
         required: true,
     },
-    latitude: {
-        type: Number,
-    },
-    longitude: {
-        type: Number,
-    },
-    phone: {
-        type: String,
+    end: {
+        type: Date,
         required: true,
     },
-    contactPerson: {
-        type: String,
-        required: true,
-    },
-    services: [
-        {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Service',
-        },
-    ],
-    events: [
-        {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'EventSchedule',
-        },
-    ],
-    admin: {
+    companyId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User',
-    },
-    workFrom: {
-        type: String,
+        ref: 'Company',
         required: true,
     },
-    workTo: {
-        type: String,
-        required: true,
-    },
-    workWeekend: {
-        type: Boolean,
-        required: true,
-    },
-}, {
-    timestamps: true,
-});
-exports.Company = mongoose_1.default.model('Company', CompanySchema);
-//# sourceMappingURL=Company.js.map
+}, { timestamps: true });
+exports.EventSchedule = mongoose_1.default.model('EventSchedule', EventSchema);
+//# sourceMappingURL=EventSchedule.js.map

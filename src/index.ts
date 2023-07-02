@@ -12,6 +12,7 @@ import {
   authRoutes,
   orderResponseRoutes,
   statisticsRoutes,
+  eventRoutes,
 } from './routes';
 import createHttpError, { isHttpError } from 'http-errors';
 import { checkAuth } from './middleware/checkAuth';
@@ -40,6 +41,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/serviceCategories', serviceCategories);
 app.use('/api/order/response', orderResponseRoutes);
 app.use('/api/statistics', statisticsRoutes);
+app.use('/api/schedule', eventRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, '404 - endpoint не существует'));

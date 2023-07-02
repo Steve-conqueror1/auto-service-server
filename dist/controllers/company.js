@@ -26,7 +26,7 @@ const getCompany = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const params = req.params;
     const companyId = params.companyId;
     try {
-        const company = yield models_1.Company.findOne({ _id: companyId }).populate('services').populate('admin');
+        const company = yield models_1.Company.findOne({ _id: companyId }).populate('services admin events');
         if (!company) {
             throw (0, http_errors_1.default)(404, 'Компания не найдена');
         }
@@ -39,7 +39,7 @@ const getCompany = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.getCompany = getCompany;
 const getCompanies = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const companies = yield models_1.Company.find().populate('services').populate('admin');
+        const companies = yield models_1.Company.find().populate('services admin events');
         res.status(200).json(companies);
     }
     catch (error) {
@@ -50,7 +50,7 @@ exports.getCompanies = getCompanies;
 const getCompanyByCurrentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.userData;
     try {
-        const company = yield models_1.Company.findOne({ admin: userId }).populate('services').populate('admin');
+        const company = yield models_1.Company.findOne({ admin: userId }).populate('services admin events');
         res.status(200).json(company);
     }
     catch (error) {

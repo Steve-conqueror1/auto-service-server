@@ -51,6 +51,7 @@ app.use('/api/users', routes_1.userRoutes);
 app.use('/api/serviceCategories', routes_1.serviceCategories);
 app.use('/api/order/response', routes_1.orderResponseRoutes);
 app.use('/api/statistics', routes_1.statisticsRoutes);
+app.use('/api/schedule', routes_1.eventRoutes);
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, '404 - endpoint не существует'));
 });

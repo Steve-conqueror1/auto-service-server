@@ -5,3 +5,4 @@ export * from './service';
 export * from './serviceCategory';
 export * from './auth';
 export * from './statistics';
+export * from './eventSchedules';

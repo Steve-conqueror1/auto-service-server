@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.statisticsRoutes = exports.orderResponseRoutes = exports.authRoutes = exports.serviceCategories = exports.orderRoutes = exports.serviceRoutes = exports.companyRoutes = exports.userRoutes = void 0;
+exports.eventRoutes = exports.statisticsRoutes = exports.orderResponseRoutes = exports.authRoutes = exports.serviceCategories = exports.orderRoutes = exports.serviceRoutes = exports.companyRoutes = exports.userRoutes = void 0;
 var user_1 = require("./user");
 Object.defineProperty(exports, "userRoutes", { enumerable: true, get: function () { return __importDefault(user_1).default; } });
 var company_1 = require("./company");
@@ -20,4 +20,6 @@ var orderResponse_1 = require("./orderResponse");
 Object.defineProperty(exports, "orderResponseRoutes", { enumerable: true, get: function () { return __importDefault(orderResponse_1).default; } });
 var statistics_1 = require("./statistics");
 Object.defineProperty(exports, "statisticsRoutes", { enumerable: true, get: function () { return __importDefault(statistics_1).default; } });
+var eventSchedule_1 = require("./eventSchedule");
+Object.defineProperty(exports, "eventRoutes", { enumerable: true, get: function () { return __importDefault(eventSchedule_1).default; } });
 //# sourceMappingURL=index.js.map

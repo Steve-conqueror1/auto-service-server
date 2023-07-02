@@ -35,6 +35,12 @@ const CompanySchema = new Schema(
         ref: 'Service',
       },
     ],
+    events: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'EventSchedule',
+      },
+    ],
     admin: {
       type: Schema.Types.ObjectId,
       ref: 'User',

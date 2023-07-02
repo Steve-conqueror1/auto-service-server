@@ -6,3 +6,4 @@ export { default as serviceCategories } from './serviceCategories';
 export { default as authRoutes } from './auth';
 export { default as orderResponseRoutes } from './orderResponse';
 export { default as statisticsRoutes } from './statistics';
+export { default as eventRoutes } from './eventSchedule';
