@@ -8,7 +8,7 @@ const OrderSchema = new Schema(
     },
     operatorComment: {
       type: String,
-      required: true,
+      required: false,
     },
     service: {
       type: Schema.Types.ObjectId,

@@ -32,7 +32,7 @@ const OrderSchema = new mongoose_1.Schema({
     },
     operatorComment: {
         type: String,
-        required: true,
+        required: false,
     },
     service: {
         type: mongoose_1.Schema.Types.ObjectId,
